@@ -182,6 +182,7 @@ getout:
 	DeleteAllObjects();
 	FreeAllSkeletonFiles(-1);
 	DeleteAll3DMFGroups();
+	TextMesh_Shutdown();							// EFE UZUN yazisi icin temizlik
 	QD3D_DisposeWindowSetup(&gGameViewInfoPtr);		
 	GameScreenToBlack();
 	Pomme_FlushPtrTracking(true);
@@ -338,6 +339,20 @@ ObjNode					*newObj;
 	gNewObjectDefinition.flags 		= 0; 
 	MakeNewDisplayGroupObject(&gNewObjectDefinition);
 
+		/* EFE UZUN YAZISI */
+
+	{
+		TextMeshDef tmd;
+		TextMesh_FillDef(&tmd);
+		tmd.align       = TEXTMESH_ALIGN_CENTER;
+		tmd.coord       = (TQ3Point3D) { 0, 120, 10 };			// x, y, z (y: yukari/asagi)
+		tmd.scale       = 0.8f;									// buyukluk
+		tmd.slot        = 100;
+		tmd.color       = TQ3ColorRGBA_FromInt(0x0033FFFF);		// mavi
+		tmd.shadowColor = TQ3ColorRGBA_FromInt(0xFFFFFFFF);		// beyaz golge
+		TextMesh_Create(&tmd, "EFE UZUN");
+	}
+
 			/**************/
 			/* MAKE ICONS */
 			/**************/
@@ -464,11 +479,3 @@ Boolean	b = FlushMouseButtonPress() || GetNewKeyState(kKey_UI_PadConfirm);
 
 	MorphToSkeletonAnim(gSpider->Skeleton, 0, 4);
 }
-
-
-
-
-
-
-
-
